@@ -652,8 +652,8 @@ function renderSponsors() {
     
     let htmlContent = "";
 
-    if (typeof officialSponsors !== 'undefined' && officialSponsors.length > 0) {
-        officialSponsors.forEach(sponsor => {
+    if (typeof window.officialSponsors !== 'undefined' && window.officialSponsors.length > 0) {
+        window.officialSponsors.forEach(sponsor => {
             htmlContent += `
                 <div class="sponsor-card gold-badge">
                     <span class="badge-icon">${sponsor.icon}</span>
@@ -677,7 +677,6 @@ function renderSponsors() {
 
     grid.innerHTML = htmlContent;
 }
-
 
 document.addEventListener('click', async function(e) {
     const inputField = document.querySelector('.search-box input');
@@ -734,18 +733,22 @@ document.addEventListener('click', async function(e) {
                         setTimeout(() => {
                             const submitBtn = document.getElementById('btnSubmitSpam');
                             if (submitBtn) {
-                                submitBtn.addEventListener('click', async function() {
+                                const newSubmitBtn = submitBtn.cloneNode(true);
+                                submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
+
+                                newSubmitBtn.addEventListener('click', async function() {
                                     const targetName = document.getElementById('reportCompanyName').value.trim();
                                     if (targetName === "" || !supabaseClient) return;
 
-                                    const { data: existing } = await supabaseClient.from('shame_list').select('*').ilike('name', targetName).maybeSingle();
-                                    if (existing) {
-                                        await supabaseClient.from('shame_list').update({ reports: existing.reports + 1 }).eq('id', existing.id);
-                                    } else {
-                                        const autoMail = autoCreateEmail(targetName);
-                                        await supabaseClient.from('shame_list').insert([{ name: targetName, reports: 1, email: autoMail }]);
-                                    }
+                                    const autoMail = autoCreateEmail(targetName);
+                                    
+                                    await supabaseClient.from('shame_list').insert([
+                                        { name: targetName, reports: 1, email: autoMail }
+                                    ]);
+
                                     await refreshGlobalShameList();
+                                    const modalOverlay = document.querySelector('.modal-overlay');
+                                    if (modalOverlay) modalOverlay.remove();
                                 });
                             }
                         }, 500);
@@ -764,5 +767,6 @@ setTimeout(() => {
     renderSponsors();
     refreshGlobalShameList();
 }, 1000);
+
 
 
