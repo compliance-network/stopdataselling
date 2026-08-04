@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Application | The Global Wall of Shame for Spammers</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cloudflare.com">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <span class="logo-icon-wrapper">
+                    <i class="fa-solid fa-envelope envelope-icon"></i>
+                    <div class="red-slash"></div>
+                </span>
+                <span class="logo-text"><strong>STOP</strong>DataSelling</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#audit">Company Audit</a></li>
+                    <li><a href="#" class="btn-donate-nav" style="color: #10b981;" onclick="event.preventDefault(); openUserDonationModal();">Donate (BTC)</a></li>
+                    <li><a href="#report" class="btn-report">Report Spam</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="search-section">
+            <h1>Who Sold My Data?</h1>
+            <p class="subtitle">Search the global database to see if a company, callcenter, or agency is violating privacy laws.</p>
+            
+            <div class="search-box">
+                <input type="text" id="companySearch" placeholder="Type company name, callcenter, or instance...">
+                <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </div>
+
+            <div id="searchResult" class="result-box hidden"></div>
+                        <div class="sponsors-section">
+                <h3>💎 Official Platform Sponsors</h3>
+                <div class="sponsors-grid" id="sponsorsGrid">
+                    
+                        </div>
+                    </div>
+                   
+        </section>
+
+        <aside class="sidebar">
+            <div class="shame-list-box">
+                <h2><i class="fa-solid fa-fire text-red"></i> Hall of Shame</h2>
+                <p class="sidebar-sub">Biggest offenders this week based on verified reports.</p>
+                
+                <ol class="shame-list">
+                    <li><span class="company-name">Global Data Broker Inc.</span> <span class="badge red">1,240 reports</span></li>
+                    <li><span class="company-name">EuroCall Center B.V.</span> <span class="badge red">942 reports</span></li>
+                    <li><span class="company-name">Apex Marketing Group</span> <span class="badge red">811 reports</span></li>
+                    <li><span class="company-name">LeadGen Logistics</span> <span class="badge red">650 reports</span></li>
+                    <li><span class="company-name">DirectConnect Media</span> <span class="badge red">523 reports</span></li>
+                    <li><span class="company-name">TeleSales Solutions</span> <span class="badge red">412 reports</span></li>
+                    <li><span class="company-name">ConsumerData Ltd.</span> <span class="badge red">389 reports</span></li>
+                    <li><span class="company-name">ValidLeads Network</span> <span class="badge red">275 reports</span></li>
+                    <li><span class="company-name">SpamWave Agency</span> <span class="badge red">198 reports</span></li>
+                    <li><span class="company-name">TargetedLists Corp.</span> <span class="badge red">143 reports</span></li>
+                </ol>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Beta Application. Empowering consumers worldwide. All rights reserved.</p>
+    </footer>
+   <script src="https://jsdelivr.net"></script>
+   <script src="script.js"></script>
+</body>
+</html>
