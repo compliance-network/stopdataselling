@@ -737,7 +737,7 @@ document.addEventListener('click', async function(e) {
                                 submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
 
                                 newSubmitBtn.addEventListener('click', async function() {
-                                    const targetName = document.getElementById('reportCompanyName').value.trim();
+                                    const targetName = document.getElementById('reportName') ? document.getElementById('reportName').value.trim() : query;
                                     if (targetName === "" || !supabaseClient) return;
 
                                     const autoMail = autoCreateEmail(targetName);
@@ -767,6 +767,3 @@ setTimeout(() => {
     renderSponsors();
     refreshGlobalShameList();
 }, 1000);
-
-
-
