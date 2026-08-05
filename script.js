@@ -729,32 +729,32 @@ document.addEventListener('click', async function(e) {
                 document.getElementById('btnLiveReportTrigger').addEventListener('click', function() {
                     if (typeof window.openDirectReportModal === 'function') {
                         window.openDirectReportModal(query);
-                        
-                        setTimeout(() => {
-                            const submitBtn = document.getElementById('btnSubmitSpam');
-                            if (submitBtn) {
-                                const newSubmitBtn = submitBtn.cloneNode(true);
-                                submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
-
-                                newSubmitBtn.addEventListener('click', async function() {
-                                    const targetName = document.getElementById('reportName') ? document.getElementById('reportName').value.trim() : query;
-                                    if (targetName === "" || !supabaseClient) return;
-
-                                    const autoMail = autoCreateEmail(targetName);
-                                    
-                                    await supabaseClient.from('shame_list').insert([
-                                        { name: targetName, reports: 1, email: autoMail }
-                                    ]);
-
-                                    await refreshGlobalShameList();
-                                    const modalOverlay = document.querySelector('.modal-overlay');
-                                    if (modalOverlay) modalOverlay.remove();
-                                });
-                            }
-                        }, 500);
                     }
                 });
             }
+        }
+        return;
+    }
+
+    const reportModal = e.target.closest('.modal') || e.target.closest('.modal-content') || document.querySelector('.modal-overlay');
+    if (reportModal && e.target.tagName === 'BUTTON' && !e.target.classList.contains('close-btn')) {
+        const targetNameInput = document.getElementById('reportName') || document.getElementById('reportCompanyName') || document.querySelector('.modal input[type="text"]');
+        const searchInput = document.querySelector('.search-box input');
+        const targetName = targetNameInput ? targetNameInput.value.trim() : (searchInput ? searchInput.value.trim() : "");
+        
+        if (targetName && targetName !== "" && supabaseClient) {
+            const autoMail = autoCreateEmail(targetName);
+            
+            await supabaseClient.from('shame_list').insert([
+                { name: targetName, reports: 1, email: autoMail }
+            ]);
+
+            if (typeof refreshGlobalShameList === 'function') {
+                await refreshGlobalShameList();
+            }
+            
+            const modalOverlay = document.querySelector('.modal-overlay') || e.target.closest('.modal-overlay');
+            if (modalOverlay) modalOverlay.remove();
         }
     }
 });
@@ -767,3 +767,4 @@ setTimeout(() => {
     renderSponsors();
     refreshGlobalShameList();
 }, 1000);
+
