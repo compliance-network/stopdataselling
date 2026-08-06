@@ -713,9 +713,17 @@ document.addEventListener('click', async function(e) {
                         <button class="btn-action-claim" id="btnLiveOptOut">Send Official Opt-Out Request</button>
                     </div>
                 `;
-                document.getElementById('btnLiveOptOut').addEventListener('click', function() {
+                document.getElementById('btnLiveOptOut').addEventListener('click', async function() {
                     if (typeof window.sendOptOut === 'function') {
                         window.sendOptOut(found.name);
+                    }
+                    if (supabaseClient) {
+                        const { data: existingCompany } = await supabaseClient.from('shame_list').select('*').eq('name', found.name).maybeSingle();
+                        if (existingCompany) {
+                            const newReports = parseInt(existingCompany.reports || 0) + 1;
+                            await supabaseClient.from('shame_list').update({ reports: newReports }).eq('id', existingCompany.id);
+                            await refreshGlobalShameList();
+                        }
                     }
                 });
             } else {
@@ -736,23 +744,42 @@ document.addEventListener('click', async function(e) {
         return;
     }
 
-    const reportModal = e.target.closest('.modal') || e.target.closest('.modal-content') || document.querySelector('.modal-overlay');
-    if (reportModal && e.target.tagName === 'BUTTON' && !e.target.classList.contains('close-btn')) {
+    const isConfirmClick = e.target && (e.target.id === 'btnSubmitSpam' || e.target.className === 'btn-confirm-send' || e.target.textContent.includes('Report') || e.target.textContent.includes('File'));
+    
+    if (isConfirmClick) {
         const targetNameInput = document.getElementById('reportName') || document.getElementById('reportCompanyName') || document.querySelector('.modal input[type="text"]');
         const searchInput = document.querySelector('.search-box input');
-        const targetName = targetNameInput ? targetNameInput.value.trim() : (searchInput ? searchInput.value.trim() : "");
-        
+        let targetName = targetNameInput ? targetNameInput.value.trim() : (searchInput ? searchInput.value.trim() : "");
+
+        if (!targetName || targetName === "") {
+            const openModal = document.querySelector('.modal');
+            if (openModal) {
+                const titleEl = openModal.querySelector('h2') || openModal.querySelector('h3');
+                if (titleEl) {
+                    targetName = titleEl.textContent.replace('Report', '').replace('Opt-Out', '').trim();
+                }
+            }
+        }
+
         if (targetName && targetName !== "" && supabaseClient) {
-            const autoMail = autoCreateEmail(targetName);
-            
-            await supabaseClient.from('shame_list').insert([
-                { name: targetName, reports: 1, email: autoMail }
-            ]);
+            const cleanName = targetName.trim();
+            const autoMail = autoCreateEmail(cleanName);
+
+            const { data: existingCompany } = await supabaseClient.from('shame_list').select('*').eq('name', cleanName).maybeSingle();
+
+            if (existingCompany) {
+                const newReports = parseInt(existingCompany.reports || 0) + 1;
+                await supabaseClient.from('shame_list').update({ reports: newReports }).eq('id', existingCompany.id);
+            } else {
+                await supabaseClient.from('shame_list').insert([
+                    { name: cleanName, reports: 1, email: autoMail }
+                ]);
+            }
 
             if (typeof refreshGlobalShameList === 'function') {
                 await refreshGlobalShameList();
             }
-            
+
             const modalOverlay = document.querySelector('.modal-overlay') || e.target.closest('.modal-overlay');
             if (modalOverlay) modalOverlay.remove();
         }
@@ -767,4 +794,3 @@ setTimeout(() => {
     renderSponsors();
     refreshGlobalShameList();
 }, 1000);
-
