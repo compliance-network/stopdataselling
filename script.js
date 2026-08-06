@@ -23,7 +23,6 @@ const searchResult = document.getElementById('searchResult');
 
 const SUPABASE_URL = "https://qoffylaknlkadkryyfqq.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_wKjWbotyB74WxGk1NVBm0w_I4Fox1Fn";
-
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 async function refreshGlobalShameList() {
@@ -277,8 +276,6 @@ Digital Citizen`);
     document.body.appendChild(modal);
 }
 
-
-
 function confirmDelivery(button) {
     button.innerHTML = `Opening Mail Client...`;
     button.disabled = true;
@@ -323,7 +320,6 @@ function confirmDelivery(button) {
         }
     }, 1500);
 }
-
 
 function openDirectAboutModal() {
     const modal = document.createElement('div');
@@ -582,7 +578,6 @@ renderSponsors();
 window.sendOptOut = sendOptOut;
 window.openDirectReportModal = openDirectReportModal;
 window.confirmDelivery = confirmDelivery;
-
 
 })();
 
