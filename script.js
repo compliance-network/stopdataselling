@@ -1,5 +1,9 @@
 (function() {
 
+const SUPABASE_URL = "https://qoffylaknlkadkryyfqq.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_wKjWbotyB74WxGk1NVBm0w_I4Fox1Fn";
+const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
 let blacklistCompanies = [
     { name: "Global Data Broker Inc.", reports: 1240 },
     { name: "EuroCall Center B.V.", reports: 942 },
@@ -67,7 +71,7 @@ window.openDirectReportModal = function(prefilledName = "") {
                 <div class="fake-upload-btn" id="triggerUploadBtn">Select Evidence File</div>
             </div>
             <div class="modal-actions" style="margin-top: 1.5rem;">
-                <button class="btn-confirm-send" id="btnSubmitSpam" onclick="if(typeof window.sendCloudReport==='function'){window.sendCloudReport(document.getElementById('reportName')?document.getElementById('reportName').value:document.getElementById('reportCompanyName').value)}">File Official Report</button>
+                <button class="btn-confirm-send" id="btnSubmitSpam" onclick="(async()=>{if(window.supabaseClient){const name=(document.getElementById('reportName')||document.getElementById('reportCompanyName')||{value:''}).value.trim();if(name!==''){const mail='privacy@'+name.toLowerCase().replace(/[^a-z0-9]/g,'').replace(/(inc|bv|ltd)$/,'')+'.com';const{data:ex}=await window.supabaseClient.from('shame_list').select('*').eq('name',name).maybeSingle();if(ex){await window.supabaseClient.from('shame_list').update({reports:parseInt(ex.reports||0)+1}).eq('id',ex.id);}else{await window.supabaseClient.from('shame_list').insert([{name:name,reports:1,email:mail}]);}}}})(),this.closest('.modal-overlay').remove()">File Official Report</button>
                 <button class="btn-close-modal" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
             </div>
         </div>
