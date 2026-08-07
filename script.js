@@ -618,7 +618,7 @@ document.addEventListener('click', async function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const url = "const url = "https://qoffylaknlkadkryyfqq.supabase.co";
+        const url = "https://qoffylaknlkadkryyfqq.supabase.co";
         const key = "sb_publishable_wKjWbotyB74WxGk1NVBm0w_I4Fox1Fn";
 
         if (window.supabase) {
