@@ -1,9 +1,5 @@
 (function() {
 
-const SUPABASE_URL = "https://qoffylaknlkadkryyfqq.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_wKjWbotyB74WxGk1NVBm0w_I4Fox1Fn";
-const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
 let blacklistCompanies = [
     { name: "Global Data Broker Inc.", reports: 1240 },
     { name: "EuroCall Center B.V.", reports: 942 },
@@ -23,7 +19,7 @@ const searchResult = document.getElementById('searchResult');
 
 const SUPABASE_URL = "https://qoffylaknlkadkryyfqq.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_wKjWbotyB74WxGk1NVBm0w_I4Fox1Fn";
-const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+window.supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
 async function refreshGlobalShameList() {
     if (!supabaseClient) return;
