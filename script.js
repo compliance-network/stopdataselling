@@ -298,20 +298,31 @@ Digital Citizen`);
     });
 }
 
-function confirmDelivery(button) {
-    button.innerHTML = "Opening Mail Client...";
-    button.disabled = true;
-    setTimeout(() => {
-        const modalBox = button.closest('.modal-box');
-        if (modalBox) {
-            modalBox.innerHTML = `
-                <h2>✅ Letter Prepared!</h2>
-                <p style="margin: 1rem 0; color: #cbd5e1; line-height: 1.5;"><strong>CRUCIAL INSTRUCTION:</strong> Please hit 'Send' in your mail application. <strong>Save this sent email in your inbox for at least 30 days as legal proof.</strong></p>
-                <p style="margin-bottom: 1rem; color: #9ca3af; font-size: 0.85rem;">The company has a legal window of 30 days to purge your records. If they continue to spam you after 30 days, submit a new report on this platform to permanently expose them and push them up the Hall Of Shame!</p>
-            `;
-        }
-    }, 1000);
+window.confirmDelivery = function(button) {
+  button.innerHTML = "Opening Mail Client...";
+  button.disabled = true;
+  setTimeout(() => {
+    const modalBox = button.closest('.modal-box');
+    if (modalBox) {
+      modalBox.innerHTML = `
+<h2>🛡️ Letter Prepared &amp; Dispatched</h2>
+<p style="margin: 1.5rem 0; color: #e5e7eb; line-height: 1.6; text-align: left; font-size: 0.9rem;">
+  <strong>Important Safeguard:</strong> The legal opt-out notice has been generated successfully. Please make sure to send the pre-filled message in your local email app.
+  <br><br>
+  <span style="color: #d97706; font-weight: bold;">⚠️ Action Required:</span> Keep this email receipt and any server logs safely for at least <strong>30 days</strong> as compliance evidence under privacy law guidelines. If the company continues to spam you, file a new report on this website to increase their Wall Of Shame Rank.
+</p>
+<div style="text-align: center; color: #9ca3af; font-size: 0.8rem; margin-top: 1rem; border-top: 1px solid #374151; padding-top: 0.5rem;">
+  This window will close automatically in 10 seconds...
+</div>
+`;
+      setTimeout(() => {
+        const overlay = document.querySelector('.modal-overlay');
+        if (overlay) overlay.remove();
+      }, 10000);
+    }
+  }, 1000);
 };
+
             <div style="background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); padding: 1.25rem; border-radius: 8px; margin: 1.5rem 0; text-align: left;">
                 <p style="color: #ef4444; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem;">⚡ Support Our Anonymous Infrastructure</p>
                 <p style="font-size: 0.85rem; color: #9ca3af; line-height: 1.5; margin-bottom: 1rem;">To protect this platform from corporate retaliation, we operate 100% anonymously via Bitcoin. If you want to support our mission, you can send a voluntary contribution below.</p>
