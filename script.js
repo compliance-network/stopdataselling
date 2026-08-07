@@ -688,19 +688,33 @@ document.addEventListener('click', async function(e) {
                 } else {
                     await client.from('shame_list').insert([{ name: name, reports: 1, email: mail }]);
                 }
+
+                const toast = document.createElement('div');
+                toast.style.position = 'fixed';
+                toast.style.bottom = '20px';
+                toast.style.right = '20px';
+                toast.style.background = '#111827';
+                toast.style.border = '2px solid #d97706';
+                toast.style.color = '#e5e7eb';
+                toast.style.padding = '1rem 1.5rem';
+                toast.style.borderRadius = '0.5rem';
+                toast.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 0 15px rgba(217, 119, 6, 0.3)';
+                toast.style.zIndex = '99999';
+                toast.style.fontFamily = 'sans-serif';
+                toast.style.animation = 'fadeIn 0.5s ease';
+                toast.innerHTML = `<strong style="color: #d97706; display: block; margin-bottom: 0.25rem;">🛡️ Report Logged Worldwide</strong> This report has been synced permanently with our global database servers.`;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => toast.remove(), 500);
+                }, 4000);
             }
         }
         
-        const modalContent = e.target.closest('.modal') || e.target.closest('.modal-content');
-        if (modalContent) {
-            modalContent.innerHTML = `
-                <h2>🛡️ Report Logged Worldwide</h2>
-                <p style="margin: 1.5rem 0; color: #e5e7eb; line-height: 1.5;">Thank you. This report has been synced permanently with our global database servers.</p>
-                <button class="btn-action-report" style="width: 100%; max-width: 200px;" onclick="this.closest('.modal-overlay').remove()">Close</button>
-            `;
-        } else {
-            const overlay = e.target.closest('.modal-overlay') || document.querySelector('.modal-overlay');
-            if (overlay) overlay.remove();
-        }
+        const overlay = e.target.closest('.modal-overlay') || document.querySelector('.modal-overlay');
+        if (overlay) overlay.remove();
     }
 });
