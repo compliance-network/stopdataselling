@@ -276,14 +276,6 @@ Digital Citizen`);
                 <p><strong>Subject:</strong> Official Data Deletion Request [ID: ${trackingId}]</p>
                 <br>
                 <p>Under GDPR Art. 17/21 & CCPA, we instruct your organization to immediately cease selling or sharing any personal data linked to this user and permanently erase their records.</p>
-
-document.getElementById('btnSendMail').onclick = () => {
-  window.open(mailto, '_blank'); // Open the email client
-  if (typeof window.sendCloudReport === 'function') {
-    window.sendCloudReport(companyName);
-  }
-  confirmDelivery(document.getElementById('btnSendMail'));
-};
             </div>
                  <div class="modal-actions" style="margin-top: 1.5rem;">
                 <button class="btn-confirm-send" id="btnFinalConfirmMail" onclick="window.open('${mailtoUrl}', '_blank'); if(typeof window.sendCloudReport==='function'){window.sendCloudReport('${companyName}')}; const m=this.closest('.modal-box'); if(m){m.innerHTML='<h2>🛡️ Letter Prepared &amp; Dispatched</h2><p style=&quot;margin:1.5rem 0;color:#e5e7eb;line-height:1.6;text-align:left;font-size:0.9rem;&quot;><strong>Important Safeguard:</strong> The legal opt-out notice has been generated successfully. Please make sure to send the pre-filled message in your local email app.<br><br><span style=&quot;color:#d97706;font-weight:bold;&quot;>⚠️ Action Required:</span> Keep this email receipt least <strong>30 days</strong> as compliance evidence under privacy law guidelines, if the company continues to spam you file a new report on this website to increase their Wall Of Shame Rank.</p><div style=&quot;text-align:center;color:#9ca3af;font-size:0.8rem;margin-top:1rem;&quot;>This window will close automatically in 10 seconds...</div>'; setTimeout(()=>{const o=document.querySelector('.modal-overlay');if(o)o.remove();},10000);};">Confirm & Open Email App</button>
