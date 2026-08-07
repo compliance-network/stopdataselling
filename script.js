@@ -583,8 +583,8 @@ function renderSponsors() {
     htmlContent += `
         <div class="sponsor-card gold-badge" style="border-style: dashed; background: transparent; justify-content: center; width: 100%; max-width: 500px; margin: 0 auto;">
             <div class="sponsor-info" style="text-align: center;">
-                <span class="sponsor-name" style="color: #d97706; font-size: 0.95rem; display: block;">🏆 Want to be the next sponsor and show up here?</span>
-                <span class="sponsor-status" style="color: #9ca3af; margin-top: 0.25rem; display: block; line-height: 1.4;">If you are a company, make a donation of 0.005 BTC and add a memo/note with your transaction so we know WHO to award the official sponsor badge to!</span>
+                <span class="sponsor-name" style="color: #d97706; font-size: 0.95rem; display: block;">🏆 Become an Official Privacy Sponsor</span>
+                <span class="sponsor-status" style="color: #9ca3af; margin-top: 0.25rem; display: block; line-height: 1.4; font-size: 0.85rem;">This space is strictly reserved for legitimate privacy-first organizations, cybersecurity firms, and open-source networks (e.g., Brave, NordVPN) that actively support digital freedom. To verify your status and award the official sponsor badge, make a support donation of 0.005 BTC and include your organization's memo/note. Malafide data brokers or spam organizations are strictly banned from verification.</span>
             </div>
         </div>
     `;
