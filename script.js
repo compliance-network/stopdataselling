@@ -323,7 +323,7 @@ window.confirmDelivery = function(button) {
   }, 1000);
 };
 
-            <div style="background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); padding: 1.25rem; border-radius: 8px; margin: 1.5rem 0; text-align: left;">
+<div style="background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); padding: 1.25rem; border-radius: 8px; margin: 1.5rem 0; text-align: left;">
                 <p style="color: #ef4444; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem;">⚡ Support Our Anonymous Infrastructure</p>
                 <p style="font-size: 0.85rem; color: #9ca3af; line-height: 1.5; margin-bottom: 1rem;">To protect this platform from corporate retaliation, we operate 100% anonymously via Bitcoin. If you want to support our mission, you can send a voluntary contribution below.</p>
                 
