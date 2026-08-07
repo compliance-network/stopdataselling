@@ -710,7 +710,7 @@ document.addEventListener('click', async function(e) {
                     toast.style.opacity = '0';
                     toast.style.transition = 'opacity 0.5s ease';
                     setTimeout(() => toast.remove(), 500);
-                }, 4000);
+                }, 8000);
             }
         }
         
