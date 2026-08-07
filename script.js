@@ -684,13 +684,13 @@ document.addEventListener('click', async function(e) {
 
                 if (ex) {
                     const newReports = parseInt(ex.reports || 0) + 1;
-                    await client.from('shame_list').update({ reports: newReports }).eq('id', existingCompany.id);
+                    await client.from('shame_list').update({ reports: newReports }).eq('id', ex.id);
                 } else {
                     await client.from('shame_list').insert([{ name: name, reports: 1, email: mail }]);
                 }
             }
         }
-               
+        
         const modalContent = e.target.closest('.modal') || e.target.closest('.modal-content');
         if (modalContent) {
             modalContent.innerHTML = `
