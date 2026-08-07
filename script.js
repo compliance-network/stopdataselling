@@ -549,27 +549,49 @@ window.officialSponsors = [];
 function renderSponsors() {
     const grid = document.getElementById('sponsorsGrid');
     if (!grid) return;
-    grid.innerHTML = "";
-    window.officialSponsors.forEach(sponsor => {
-        const card = document.createElement('div');
-        card.className = 'sponsor-card gold-badge';
-        card.innerHTML = `
-            <span class="badge-icon">${sponsor.icon}</span>
-            <div class="sponsor-info">
-                <span class="sponsor-name">${sponsor.name}</span>
-                <span class="sponsor-status">Verified Sponsor</span>
+    
+    let htmlContent = "";
+
+    if (window.officialSponsors && window.officialSponsors.length > 0) {
+        window.officialSponsors.forEach(sponsor => {
+            htmlContent += `
+                <div class="sponsor-card gold-badge">
+                    <span class="badge-icon">${sponsor.icon}</span>
+                    <div class="sponsor-info">
+                        <span class="sponsor-name">${sponsor.name}</span>
+                        <span class="sponsor-status">Verified Sponsor</span>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    htmlContent += `
+        <div class="sponsor-card gold-badge" style="border-style: dashed; background: transparent; justify-content: center; width: 100%; max-width: 500px; margin: 0 auto;">
+            <div class="sponsor-info" style="text-align: center;">
+                <span class="sponsor-name" style="color: #d97706; font-size: 0.95rem; display: block;">🏆 Want to be the next sponsor and show up here?</span>
+                <span class="sponsor-status" style="color: #9ca3af; margin-top: 0.25rem; display: block; line-height: 1.4;">If you are a company, make a donation of 0.005 BTC and add a memo/note with your transaction so we know WHO to award the official sponsor badge to!</span>
             </div>
-        `;
-        grid.appendChild(card);
-    });
+        </div>
+    `;
+
+    grid.innerHTML = htmlContent;
 }
 
 function addNewSponsor(companyName, companyIcon = "🏢") {
-    officialSponsors.push({ name: companyName, icon: companyIcon });
-    renderSponsors();
+    if(window.officialSponsors) {
+        window.officialSponsors.push({ name: companyName, icon: companyIcon });
+        renderSponsors();
+    }
 }
 
-renderSponsors();
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(renderSponsors, 500);
+});
+
+window.addEventListener('load', function() {
+    setTimeout(renderSponsors, 1500);
+});
 
 window.sendOptOut = sendOptOut;
 window.openDirectReportModal = openDirectReportModal;
