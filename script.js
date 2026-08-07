@@ -31,9 +31,23 @@ async function refreshGlobalShameList() {
 }
 
 function autoCreateEmail(name) {
-    let clean = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    clean = clean.replace(/(inc|bv|ltd)$/, '');
-    return `privacy@${clean || 'spambank'}.com`;
+    if (!name) return 'privacy@spambank.com';
+    let cleanName = name.toLowerCase().trim();
+    let domain = "com";
+    
+    if (cleanName.endsWith('.nl')) {
+        domain = "nl";
+        cleanName = cleanName.replace('.nl', '');
+    } else if (cleanName.endsWith('.com')) {
+        domain = "com";
+        cleanName = cleanName.replace('.com', '');
+    } else if (cleanName.endsWith('.org')) {
+        domain = "org";
+        cleanName = cleanName.replace('.org', '');
+    }
+
+    cleanName = cleanName.replace(/[^a-z0-9]/g, '').replace(/(inc|bv|ltd)$/, '');
+    return `privacy@${cleanName || 'spambank'}.${domain}`;
 }
 
 window.openDirectReportModal = function(prefilledName = "") {
@@ -649,7 +663,22 @@ document.addEventListener('click', async function(e) {
             const name = nameInput ? nameInput.value.trim() : "";
 
             if (name !== "") {
-                const mail = 'privacy@' + name.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/(inc|bv|ltd)$/, '') + '.com';
+                let cleanName = name.toLowerCase().trim();
+                let domain = "com";
+                
+                if (cleanName.endsWith('.nl')) {
+                    domain = "nl";
+                    cleanName = cleanName.replace('.nl', '');
+                } else if (cleanName.endsWith('.com')) {
+                    domain = "com";
+                    cleanName = cleanName.replace('.com', '');
+                } else if (cleanName.endsWith('.org')) {
+                    domain = "org";
+                    cleanName = cleanName.replace('.org', '');
+                }
+
+                cleanName = cleanName.replace(/[^a-z0-9]/g, '').replace(/(inc|bv|ltd)$/, '');
+                const mail = `privacy@${cleanName || 'spambank'}.${domain}`;
                 
                 const { data: ex } = await client.from('shame_list').select('*').eq('name', name).maybeSingle();
 
@@ -666,5 +695,6 @@ document.addEventListener('click', async function(e) {
         if (overlay) overlay.remove();
     }
 });
+
 
 
