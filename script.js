@@ -654,7 +654,7 @@ document.addEventListener('click', async function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const url = "https://qoffylaknlkadkryyfqq.supabase.co";
+        const url = "https://supabase.co";
         const key = "sb_publishable_wKjWbotyB74WxGk1NVBm0w_I4Fox1Fn";
 
         if (window.supabase) {
@@ -684,17 +684,23 @@ document.addEventListener('click', async function(e) {
 
                 if (ex) {
                     const newReports = parseInt(ex.reports || 0) + 1;
-                    await client.from('shame_list').update({ reports: newReports }).eq('id', ex.id);
+                    await client.from('shame_list').update({ reports: newReports }).eq('id', existingCompany.id);
                 } else {
                     await client.from('shame_list').insert([{ name: name, reports: 1, email: mail }]);
                 }
             }
         }
-        
-        const overlay = e.target.closest('.modal-overlay') || document.querySelector('.modal-overlay');
-        if (overlay) overlay.remove();
+               
+        const modalContent = e.target.closest('.modal') || e.target.closest('.modal-content');
+        if (modalContent) {
+            modalContent.innerHTML = `
+                <h2>🛡️ Report Logged Worldwide</h2>
+                <p style="margin: 1.5rem 0; color: #e5e7eb; line-height: 1.5;">Thank you. This report has been synced permanently with our global database servers.</p>
+                <button class="btn-action-report" style="width: 100%; max-width: 200px;" onclick="this.closest('.modal-overlay').remove()">Close</button>
+            `;
+        } else {
+            const overlay = e.target.closest('.modal-overlay') || document.querySelector('.modal-overlay');
+            if (overlay) overlay.remove();
+        }
     }
 });
-
-
-
