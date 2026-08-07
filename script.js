@@ -263,9 +263,9 @@ Please confirm compliance within the legally required 30-day window. Failure to 
 Sincerely,
 Digital Citizen`);
 
-    const mailtoUrl = `mailto:${targetEmail}?subject=${emailSubject}&body=${emailBody}`;
+        const mailtoUrl = `mailto:${targetEmail}?subject=${emailSubject}&body=${emailBody}`;
 
-        const modal = document.createElement('div');
+    const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
         <div class="modal-box">
@@ -278,7 +278,7 @@ Digital Citizen`);
                 <p>Under GDPR Art. 17/21 & CCPA, we instruct your organization to immediately cease selling or sharing any personal data linked to this user and permanently erase their records.</p>
             </div>
             <div class="modal-actions" style="margin-top: 1.5rem;">
-                <button class="btn-confirm-send" id="btnFinalConfirmMail" onclick="handleFinalMailDispatch(this, '${mailtoUrl.replace(/'/g, "\\'")}', '${companyName.replace(/'/g, "\\'")}')">Confirm & Open Email App</button>
+                <button class="btn-confirm-send" onclick="window.open('${mailtoUrl}', '_blank'); if(typeof window.sendCloudReport==='function'){window.sendCloudReport('${companyName}')}; confirmDelivery(this);">Confirm & Open Email App</button>
                 <button class="btn-close-modal" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
             </div>
         </div>
@@ -291,11 +291,16 @@ function confirmDelivery(button) {
     button.disabled = true;
     setTimeout(() => {
         const modalBox = button.closest('.modal-box');
-        modalBox.innerHTML = `
-            <h2>✅ Letter Prepared!</h2>
-            <p style="margin: 1rem 0; color: #cbd5e1; line-height: 1.5;"><strong>CRUCIAL INSTRUCTION:</strong> Please hit 'Send' in your mail application. <strong>Save this sent email in your inbox for at least 30 days as legal proof.</strong></p>
-            <p style="margin-bottom: 1rem; color: #9ca3af; font-size: 0.85rem;">The company has a legal window of 30 days to purge your records. If they continue to spam you after 30 days, submit a new report on this platform to permanently expose them and push them up the leaderboard!</p>
-            
+        if (modalBox) {
+            modalBox.innerHTML = `
+                <h2>✅ Letter Prepared!</h2>
+                <p style="margin: 1rem 0; color: #cbd5e1; line-height: 1.5;"><strong>CRUCIAL INSTRUCTION:</strong> Please hit 'Send' in your mail application. <strong>Save this sent email in your inbox for at least 30 days as legal proof.</strong></p>
+                <p style="margin-bottom: 1rem; color: #9ca3af; font-size: 0.85rem;">The company has a legal window of 30 days to purge your records. If they continue to spam you after 30 days, submit a new report on this platform to permanently expose them and push them up the Hall Of Shame!</p>
+            `;
+        }
+    }, 1000);
+}
+
             <div style="background-color: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.2); padding: 1.25rem; border-radius: 8px; margin: 1.5rem 0; text-align: left;">
                 <p style="color: #ef4444; font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem;">⚡ Support Our Anonymous Infrastructure</p>
                 <p style="font-size: 0.85rem; color: #9ca3af; line-height: 1.5; margin-bottom: 1rem;">To protect this platform from corporate retaliation, we operate 100% anonymously via Bitcoin. If you want to support our mission, you can send a voluntary contribution below.</p>
