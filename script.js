@@ -240,7 +240,7 @@ function sendOptOut(companyName) {
         "TargetedLists Corp.": "privacy@targetedlists.com"
     };
 
-    const targetEmail = companyEmails[companyName] || "compliance@spambank.org";
+    const targetEmail = autoCreateEmail(companyName);
     const trackingId = "SDS-" + Math.floor(100000 + Math.random() * 900000);
     
     const emailSubject = encodeURIComponent(`Official Data Deletion and Opt-Out Request [ID: ${trackingId}]`);
