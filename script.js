@@ -279,13 +279,6 @@ Digital Citizen`);
             </div>
                  <div class="modal-actions" style="margin-top: 1.5rem;">
     <button class="btn-confirm-send" id="btnFinalConfirmMail" onclick="
-        // 1. Open the email client (reliable method that does NOT navigate the page away)
-        const link = document.createElement('a');
-        link.href = '${mailtoUrl}';
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
 
         if (typeof window.sendCloudReport === 'function') {
             window.sendCloudReport('${companyName}');
