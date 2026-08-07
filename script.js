@@ -263,7 +263,7 @@ Please confirm compliance within the legally required 30-day window. Failure to 
 Sincerely,
 Digital Citizen`);
 
-        const mailtoUrl = `mailto:${targetEmail}?subject=${emailSubject}&body=${emailBody}`;
+            const mailtoUrl = `mailto:${targetEmail}?subject=${emailSubject}&body=${emailBody}`;
 
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
@@ -278,16 +278,28 @@ Digital Citizen`);
                 <p>Under GDPR Art. 17/21 & CCPA, we instruct your organization to immediately cease selling or sharing any personal data linked to this user and permanently erase their records.</p>
             </div>
             <div class="modal-actions" style="margin-top: 1.5rem;">
-                <button class="btn-confirm-send" onclick="window.open('${mailtoUrl}', '_blank'); if(typeof window.sendCloudReport==='function'){window.sendCloudReport('${companyName}')}; confirmDelivery(this);">Confirm & Open Email App</button>
-                <button class="btn-close-modal" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                <button class="btn-confirm-send" id="btnFinalConfirmMail">Confirm & Open Email App</button>
+                <button class="btn-close-modal" id="btnCancelModal">Cancel</button>
             </div>
         </div>
     `;
     document.body.appendChild(modal);
+
+    document.getElementById('btnFinalConfirmMail').addEventListener('click', function() {
+        window.open(mailtoUrl, '_blank');
+        if (typeof window.sendCloudReport === 'function') {
+            window.sendCloudReport(companyName);
+        }
+        confirmDelivery(this);
+    });
+
+    document.getElementById('btnCancelModal').addEventListener('click', function() {
+        modal.remove();
+    });
 }
 
 function confirmDelivery(button) {
-    button.innerHTML = `Opening Mail Client...`;
+    button.innerHTML = "Opening Mail Client...";
     button.disabled = true;
     setTimeout(() => {
         const modalBox = button.closest('.modal-box');
