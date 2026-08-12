@@ -758,7 +758,7 @@ document.addEventListener('click', async function(e) {
                 toast.style.zIndex = '99999';
                 toast.style.fontFamily = 'sans-serif';
                 toast.style.animation = 'fadeIn 0.5s ease';
-                toast.innerHTML = `<strong style="color: #d97706; display: block; margin-bottom: 0.25rem;">🛡️ Report Logged Worldwide</strong> This report and evidence has been synced permanently with our global database servers.`;
+                toast.innerHTML = `<strong style="color: #d97706; display: block; margin-bottom: 0.25rem;">🛡️ Report Logged Worldwide</strong> This report and evidence (If Provided) has been synced permanently with our global database servers.`;
                 
                 document.body.appendChild(toast);
                 
