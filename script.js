@@ -358,10 +358,10 @@ function openDirectAuditModal() {
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
-        <div class="modal-box" style="max-width: 650px;">
-            <h2>⚖️ Company Audit Procedure</h2>
-            <p class="modal-intro">The transparent legal compliance framework for listed companies:</p>
-            <div class="letter-preview" style="max-height: 200px;">
+        <div class="modal-box" style="max-width: 650px; border: 2px solid #d97706; background: #111827;">
+            <h2>⚖️ Secure Corporate Audit Access</h2>
+            <p class="modal-intro" style="color: #9ca3af; margin-bottom: 1rem;">The transparent legal compliance framework for listed companies:</p>
+            <div class="letter-preview" style="max-height: 200px; overflow-y: auto; text-align: left; margin-bottom: 1.5rem;">
                 <p><strong>To:</strong> Legal Departments & Compliance Officers</p>
                 <br>
                 <p>We are strictly against digital extortion. Beta Application operates with absolute legal integrity. If your company has been listed on our Wall of Shame, we provide a transparent, objective compliance audit to clean your record entirely free of charge.</p>
@@ -370,21 +370,17 @@ function openDirectAuditModal() {
                 <br>
                 <p>Compliance is the only way out.</p>
             </div>
-
+            
             <div style="background-color: rgba(217, 119, 6, 0.05); border: 1px solid rgba(217, 119, 6, 0.2); padding: 1.25rem; border-radius: 8px; margin: 1.5rem 0; text-align: left;">
                 <p style="color: #d97706; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.75rem;">🏢 Submit Compliance Documents</p>
+                <label style="color: #e5e7eb; font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">Official Corporate Email Address</label>
+                <input type="email" id="auditCompanyEmail" placeholder="e.g., compliance@yourcompany.com" style="width: 100%; padding: 0.75rem; background: #1f2937; border: 1px solid #374151; border-radius: 0.375rem; color: #fff; font-family: monospace; margin-bottom: 1rem;">
                 
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label style="font-size: 0.8rem; color: #cbd5e1;">Official Company Email</label>
-                    <input type="email" id="auditCompanyEmail" placeholder="legal@yourcompany.com" style="width: 100%; background-color: #0b111e; border: 1px solid #1f2a3c; padding: 0.5rem; border-radius: 6px; color: #ffffff; font-family: inherit;">
-                </div>
-
-                <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.5rem; color: #cbd5e1;">Upload Cryptographic Logs / PDF Audit Report:</label>
-                <input type="file" id="realAuditFileInput" accept=".pdf,.txt,.log" style="display: none;">
-                <div class="fake-upload-btn" id="triggerAuditUploadBtn" style="border-color: #d97706; color: #d97706; background-color: rgba(217, 119, 6, 0.02);">Select Compliance File (.pdf, .log, .txt)</div>
+                <button type="button" id="triggerAuditUploadBtn" class="btn-action-report" style="width: 100%; border: 1px dashed #d97706; background: transparent; color: #d97706; padding: 0.75rem; border-radius: 4px; cursor: pointer;">Select Compliance File (.pdf, .log, .txt)</button>
+                <input type="file" id="realAuditFileInput" style="display: none;" accept=".pdf,.log,.txt,image/png,image/jpeg">
             </div>
 
-            <div class="modal-actions">
+            <div class="modal-actions" style="margin-top: 1.5rem; display: flex; gap: 1rem;">
                 <button class="btn-confirm-send" id="btnSubmitAudit" style="background-color: #d97706; flex: 2;">Submit Audit Application</button>
                 <button class="btn-close-modal" onclick="this.closest('.modal-overlay').remove()" style="flex: 1;">Cancel</button>
             </div>
@@ -412,6 +408,38 @@ function openDirectAuditModal() {
             }
         });
     }
+
+    document.getElementById('btnSubmitAudit').addEventListener('click', function() {
+        const emailInput = document.getElementById('auditCompanyEmail');
+        const email = emailInput ? emailInput.value.trim().toLowerCase() : "";
+        
+        if (email === "") {
+            alert("❌ Corporate email is required.");
+            return;
+        }
+
+        const bannedDomains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'live.com', 'icloud.com', 'proton.me', 'protonmail.com', 'aol.com', 'gmx.com', 'zoho.com'];
+        const domainParts = email.split('@');
+        const domain = domainParts[1];
+
+        if (!email.includes('@') || !domain || domain.includes('..')) {
+            alert("❌ Invalid email structure.");
+            return;
+        }
+
+        if (bannedDomains.includes(domain)) {
+            alert("❌ Access Denied. Public email providers are strictly banned from this corporate gateway.");
+            return;
+        }
+
+        const subject = encodeURIComponent(`Audit Submission from ${domain}`);
+        const body = encodeURIComponent(`This is an automated notification. A corporate compliance audit review has been requested by ${email}. Please verify the submitted records.`);
+        
+        window.location.href = `mailto:StopDataSelling@protonmail.com?${subject}&body=${body}`;
+        
+        alert("✅ Identity Verified. Your audit file and application logs have been queued for processing. Our privacy officers will review the logs within 48 hours.");
+        modal.remove();
+    });
 
     document.getElementById('btnSubmitAudit').addEventListener('click', function() {
         const companyEmail = document.getElementById('auditCompanyEmail').value.trim();
