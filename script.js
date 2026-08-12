@@ -686,10 +686,29 @@ document.addEventListener('click', async function(e) {
 
         if (window.supabase) {
             const client = window.supabase.createClient(url, key);
+            
             const nameInput = document.getElementById('reportName') || document.getElementById('reportCompanyName') || document.querySelector('.modal input[type="text"]');
             const name = nameInput ? nameInput.value.trim() : "";
+            
+            const fileInput = document.getElementById('evidenceFileInput') || document.getElementById('realFileInput') || document.querySelector('.modal input[type="file"]');
+            let screenshotUrl = null;
 
-            if (name !== "") {
+            if (name !== "") {                
+                if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileExt = file.name.split('.').pop();
+                    // Maak een unieke, cyber-safe bestandsnaam aan met een timestamp
+                    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${fileExt}`;
+
+                    const { data: uploadData, error: uploadError } = await client.storage
+                        .from('spam_evidence')
+                        .upload(fileName, file);
+
+                    if (!uploadError && uploadData) {                        
+                        screenshotUrl = fileName;
+                    }
+                }
+
                 let cleanName = name.toLowerCase().trim();
                 let domain = "com";
                 
@@ -710,10 +729,20 @@ document.addEventListener('click', async function(e) {
                 const { data: ex } = await client.from('shame_list').select('*').eq('name', name).maybeSingle();
 
                 if (ex) {
-                    const newReports = parseInt(ex.reports || 0) + 1;
-                    await client.from('shame_list').update({ reports: newReports }).eq('id', ex.id);
+                    const newReports = parseInt(ex.reports || 0) + 1;                    
+                    const updatePayload = { reports: newReports };
+                    if (screenshotUrl) {
+                        updatePayload.evidence_url = screenshotUrl;
+                    }
+                    await client.from('shame_list').update(updatePayload).eq('id', ex.id);
                 } else {
-                    await client.from('shame_list').insert([{ name: name, reports: 1, email: mail }]);
+
+                    await client.from('shame_list').insert([{ 
+                        name: name, 
+                        reports: 1, 
+                        email: mail,
+                        evidence_url: screenshotUrl 
+                    }]);
                 }
 
                 const toast = document.createElement('div');
@@ -729,7 +758,7 @@ document.addEventListener('click', async function(e) {
                 toast.style.zIndex = '99999';
                 toast.style.fontFamily = 'sans-serif';
                 toast.style.animation = 'fadeIn 0.5s ease';
-                toast.innerHTML = `<strong style="color: #d97706; display: block; margin-bottom: 0.25rem;">🛡️ Report Logged Worldwide</strong> This report has been synced permanently with our global database servers.`;
+                toast.innerHTML = `<strong style="color: #d97706; display: block; margin-bottom: 0.25rem;">🛡️ Report Logged Worldwide</strong> This report and evidence has been synced permanently with our global database servers.`;
                 
                 document.body.appendChild(toast);
                 
@@ -745,4 +774,3 @@ document.addEventListener('click', async function(e) {
         if (overlay) overlay.remove();
     }
 });
-
