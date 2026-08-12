@@ -433,7 +433,7 @@ function openDirectAuditModal() {
         }
 
         const subject = encodeURIComponent(`Audit Submission from ${domain}`);
-        const body = encodeURIComponent(`This is an automated notification. A corporate compliance audit review has been requested by ${email}. Please verify the submitted records.`);
+        const body = encodeURIComponent(`This is an automated notification. A corporate compliance audit review has been requested by ${email}. IMPORTANT: Please ensure you manually attach the certified compliance records, logfiles, or screenshots (.pdf, .log, .txt, .png, .jpg) you selected on the platform to this email before hitting send.`);
         
         window.location.href = `mailto:StopDataSelling@protonmail.com?${subject}&body=${body}`;
         
